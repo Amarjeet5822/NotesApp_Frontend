@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import './App.css'
+import Navbar from './components/Navbar'
+import AllRoutes from './components/AllRoutes'
 
 function App() {
   return (
     <>
-    <p className='text-3xl text-center py-10 bg-gray-500'>Hello World!</p>
+    <Navbar/>
+    <AllRoutes/>
     </>
   )
 }
