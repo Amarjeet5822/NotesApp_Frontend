@@ -1,7 +1,13 @@
 import React from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 
 function Navbar() {
+  const navigate = useNavigate()
+  const token = localStorage.getItem("token")
+  const logoutHandler = () => {
+    localStorage.setItem("token", "")
+    navigate("/login")
+  }
   return (
     <nav className="flex justify-center items-center gap-20 bg-amber-100 py-5">
       <div>
@@ -26,14 +32,17 @@ function Navbar() {
           </NavLink>
         </div>
         <div>
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              isActive ? "text-red-500 font-bold" : ""
-            }
-          >
-            Login
-          </NavLink>
+          { 
+          token ?  <button onClick={logoutHandler}>Logout</button> : <NavLink
+          to="/login"
+          className={({ isActive }) =>
+            isActive ? "text-red-500 font-bold" : ""
+          }
+        >
+          Login
+        </NavLink>
+          }
+          
         </div>
       </div>
     </nav>

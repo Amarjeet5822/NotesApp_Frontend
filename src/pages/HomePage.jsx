@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 function HomePage() {
   const [notes, setNotes] = useState([])
+  const navigate = useNavigate()
   useEffect( () => {
     const token = localStorage.getItem("token")
     console.log(token)
@@ -22,13 +24,21 @@ function HomePage() {
     }
     getNotes();
   },[])
+
+  const clickHandler = () => {
+    navigate("/addnotes")
+  }
   console.log("line 21 ",notes);
   return (
-    <div>
+    <div className='max-w-7xl m-auto'>
       <div>
+        <button className='bg-blue-200 py-1 px-3 mt-1 rounded-md hover:bg-blue-400 hover:text-white ' onClick={clickHandler}>Add Notes</button>
+      </div>
+      <div className='max-w-5xl m-auto bg-amber-100'>
+        
         <h1>{notes && notes.length!=0 ? "All the Notes": "Notes Not Available"}</h1>
         <div>
-          {notes.length !=0 ? 
+          { notes && notes.length!==0 ? 
           notes.map((item)=>
                    <div key={item._id}>
                       <p>{item.title}</p>

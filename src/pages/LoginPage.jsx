@@ -1,10 +1,25 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router';
+import { ToastContainer, toast } from 'react-toastify';
 
 function LoginPage() {
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
+    const navigate = useNavigate()
+    const successToast = () => toast("Login Successfull!");
+    const failedToast = () => toast("Invalid email or password!");
+    const missingFieldToast = () => toast("missing Fields!");
+    const incorrectEmailToast = () => toast("Wrong Email!");
     const formHandler = (event) => {
       event.preventDefault();
+      if(!email || !pass){
+        missingFieldToast();
+        return
+      }
+      if(!/\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(email)){
+        incorrectEmailToast()
+        return 
+      }
       const payload = {
         email,
         pass,
@@ -28,9 +43,13 @@ function LoginPage() {
           if(data.token){
             localStorage.setItem("token", data.token)
           }
-
+          successToast()
+          setTimeout(()=> {
+            navigate("/")
+          },2000)
         } catch (error) {
           console.log(error);
+          failedToast();
         }
       };
       loginUser(payload);
@@ -76,6 +95,7 @@ function LoginPage() {
             />
           </div>
         </form>
+          <ToastContainer position="top-center" autoClose={1000} />
       </div>
     );
   }

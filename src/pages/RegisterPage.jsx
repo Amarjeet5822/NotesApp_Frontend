@@ -1,11 +1,22 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
 
 function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const navigate = useNavigate();
+  const notify = () => toast("Successfully registered!");
+  const failedMsg = () => toast("Failed to register! Try again")
+  const missingField = () => toast("Missing field!")
   const formHandler = (event) => {
     event.preventDefault();
+    // !name || !email || !pass ? missingField() : null // to unable use return keywords 
+    if(!name || !email || !pass){
+      missingField()
+      return 
+    }
     const payload = {
       name,
       email,
@@ -14,22 +25,30 @@ function RegisterPage() {
     console.log(payload);
     const registerUser = async (payload) => {
       console.log(payload);
-      
+
       try {
         // further I will implement dotenv on backend url
-        const response = await fetch("https://notesapp-bc.onrender.com/users/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
+        const response = await fetch(
+          "https://notesapp-bc.onrender.com/users/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
         if (!response.ok) {
           throw new Error(`Response status: ${response.status}`);
         }
         const data = await response.json();
         console.log("line 24 ", data);
+        notify();
+        setTimeout(() => {
+          navigate("/login");          
+        }, 3000);
       } catch (error) {
+        failedMsg()
         console.log(error);
       }
     };
@@ -88,6 +107,7 @@ function RegisterPage() {
             name="submit"
           />
         </div>
+        <ToastContainer position="top-center" autoClose={2000} />
       </form>
     </div>
   );
