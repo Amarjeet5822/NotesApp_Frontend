@@ -9,12 +9,12 @@ function Navbar() {
     navigate("/login")
   }
   return (
-    <nav className="flex justify-center items-center gap-20 bg-amber-100 py-5">
+    <nav className="max-w-4xl m-auto text-xl flex justify-center items-center gap-20 bg-gray-400 py-5">
       <div>
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? "text-red-500 font-bold" : ""
+            isActive ? "text-gray-800 font-bold" : ""
           }
         >
           Home
@@ -25,7 +25,7 @@ function Navbar() {
           <NavLink
             to="/register"
             className={({ isActive }) =>
-              isActive ? "text-red-500 font-bold" : ""
+              isActive ? "text-gray-800 font-bold" : ""
             }
           >
             Register

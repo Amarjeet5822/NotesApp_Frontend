@@ -40,9 +40,9 @@ function LoginPage() {
           }
           const data = await response.json();
           console.log("line 24 ", data);
-          if(data.token){
-            localStorage.setItem("token", data.token)
-          }
+          // if(data.token){
+          //   localStorage.setItem("token", data.token)
+          // }
           successToast()
           setTimeout(()=> {
             navigate("/")
